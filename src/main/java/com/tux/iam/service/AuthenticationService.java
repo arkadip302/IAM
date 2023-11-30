@@ -36,7 +36,7 @@ public class AuthenticationService {
     public String register(RegisterRequestDTO request) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.getAuthorities()!=null && !(authentication.getAuthorities().stream().findFirst().get().getAuthority().equals("SUPER_ADMIN") &&
+        if(authentication.getAuthorities()==null && !(authentication.getAuthorities().stream().findFirst().get().getAuthority().equals("SUPER_ADMIN") ||
                 authentication.getAuthorities().stream().findFirst().get().getAuthority().equals("BDO"))){
             throw new CustomServiceException("You Don't Have Access To Create User");
         }else if (!ObjectUtils.isEmpty(repository.findByEmail(request.getEmail())) || !ObjectUtils.isEmpty(repository.findByName(request.getUserName()))){

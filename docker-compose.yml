@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8081:8081"
+    networks:
+      - my-network1
+    environment:
+      MONGO_URL: mongodb://mongodb:27017
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - my-network1
+    volumes:
+      - monogo-user-data:/data/db
+networks:
+  my-network1:
+    driver: bridge
+volumes:
+  monogo-user-data:
