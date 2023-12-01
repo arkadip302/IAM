@@ -31,11 +31,17 @@ public class DataInitializer implements CommandLineRunner {
 
         while (currentAttempt <= maxAttempts && !success) {
             try {
+                    try {
+                      if(userRepository.findByName("Arkadip").isPresent())
+                          return;
+                    }catch (RuntimeException e1){
+                        System.out.println("Not Present , Creating DB Entry");
+                    }
                     User entity1 = new User();
                     entity1.setName("Arkadip");
                     entity1.setRole(Role.SUPER_ADMIN);
                     entity1.setPassword(passwordEncoder.encode("Jana@123"));
-                    entity1.setEmail("janaarkadip1.jana@gmail.com");
+                    entity1.setEmail("janaarkadip.jana@gmail.com");
                     userRepository.save(entity1);
                     success = true;
                     System.out.println("User Saved");

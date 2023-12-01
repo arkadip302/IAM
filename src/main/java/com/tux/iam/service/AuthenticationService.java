@@ -3,6 +3,7 @@ package com.tux.iam.service;
 import com.tux.iam.dto.AuthenticationRequestDTO;
 import com.tux.iam.dto.AuthenticationResponseDTO;
 import com.tux.iam.dto.RegisterRequestDTO;
+import com.tux.iam.entity.Office;
 import com.tux.iam.entity.Role;
 import com.tux.iam.entity.User;
 import com.tux.iam.exception.CustomServiceException;
@@ -48,12 +49,10 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.valueOf("USER"))
+                .office(Office.valueOf(request.getOffice()))
                 .build();
 
         var savedUser = repository.save(user);
-        if(savedUser == null){
-            throw  new DataNotFoundException("Not Able To Create User");
-        }
         return "Account Created !!!";
     }
 

@@ -6,5 +6,9 @@ spring:
       database: dms
 server:
   port: 8081
+myapp:
+  secretKey : "99B7B81AAA99EC2F71B14D654CC9ChJBJUFUU6FVGJJCJCJCJGs"
+
+
 
 
