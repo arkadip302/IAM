@@ -3,11 +3,11 @@ package com.tux.iam.service;
 import com.tux.iam.dto.AuthenticationRequestDTO;
 import com.tux.iam.dto.AuthenticationResponseDTO;
 import com.tux.iam.dto.RegisterRequestDTO;
-import com.tux.iam.entity.Office;
 import com.tux.iam.entity.Role;
 import com.tux.iam.entity.User;
 import com.tux.iam.exception.CustomServiceException;
 import com.tux.iam.exception.DataNotFoundException;
+import com.tux.iam.repository.OfficeRepository;
 import com.tux.iam.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -31,6 +31,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final OfficeRepository officeRepository;
 
     private static  final String SECURITY_KEY = "99B7B81AAA99EC2F71B14D654CC9ChJBJUFUU6FVGJJCJCJCJGs";
 
@@ -49,7 +50,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.valueOf("USER"))
-                .office(Office.valueOf(request.getOffice()))
+                .office(officeRepository.findByOfficeName(request.getOffice()).get())
                 .build();
 
         var savedUser = repository.save(user);
@@ -71,12 +72,15 @@ public class AuthenticationService {
                 .build();
     }
 
-    public boolean validate(String token) {
+    public String validate(String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(SECURITY_KEY).build().parseClaimsJws(token);
-            return !claims.getBody().getExpiration().before(new Date());
+            if(!claims.getBody().getExpiration().before(new Date())){
+                return (String) claims.getBody().get("sub");
+            }
+            return null;
         }catch (Exception e){
-            return false;
+            return null;
         }
 
 

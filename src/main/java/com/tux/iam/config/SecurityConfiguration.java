@@ -31,7 +31,8 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/iam/v1/auth/authenticate","/iam/v1/auth/validate")
+                        req.requestMatchers("/iam/v1/auth/authenticate","/iam/v1/auth/validate",
+                                        "/iam/v1/office/getAllOffice")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()

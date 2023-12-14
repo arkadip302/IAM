@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    config:
+      fail-fast: true
+      uri:
+        - http://localhost:8888/
+      label: master
+  config:
+    import: optional:configserver:http://localhost:8888/
+  profiles:
+    active: default
+  application:
+    name: iam

@@ -1,10 +1,13 @@
 package com.tux.iam.entity;
 
-public enum Office {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    BLOCK_HIRBANDH,
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Office {
 
-    BLOCK_PURSURAH,
-
-    BLOCK_HASNABAD
+    String officeName;
 }

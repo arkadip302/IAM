@@ -31,7 +31,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/validate")
-    public ResponseEntity<Boolean> validate(@RequestParam String token){
+    public ResponseEntity<String> validate(@RequestParam String token){
         return ResponseEntity.ok(authenticationService.validate(token));
     }
 }
